@@ -1,17 +1,9 @@
-//	ISKANDAR ASKAROV 	cs610	8515	prp
-
-//============================================================================
-// Name        : hitspagerank.cpp
-// Author      : Iskandar Askarov
-// Version     :
-// Copyright   : Use it all you want!!!
-// Description : Hello World in C++, Ansi-style
-//============================================================================
 
 #include <iostream>
 #include <cstdlib>
 #include "udef.h"
 #include "hits.h"
+#include "pagerank.h"
 
 #include<string>
 
@@ -36,17 +28,27 @@ int main(int argc, char **argv) {
 		return EXIT_FAILURE;
 	}
 
-	if(CMD_ALGO == '-h'){
+	string algo = CMD_ALGO;
+	if(algo == "-h"){
 		hits hts(stoi(CMD_ITERATIONS), stoi(CMD_INITVAL));
 		int **pmatrix = hts.generate_matrix(in);
 		hts.init_hub_auth();
-		hts.run(pmatrix);
+		hts.run_hits(pmatrix);
 
 		for(int i = 0; i < hts.get_vertex_size(); i++){
 			delete [] pmatrix[i];
 		}
 		delete [] pmatrix;
-	} else if(CMD_ALGO == '-p'){
+	} else if(algo == "-p"){
+
+		pagerank rank(stoi(CMD_ITERATIONS), stoi(CMD_INITVAL));
+		int **pmatrix = rank.generate_matrix(in);
+		rank.init_src_out(pmatrix);
+		rank.run_pagerank(pmatrix);
+		for(int i = 0; i < rank.get_vertex_size(); i++){
+			delete [] pmatrix[i];
+		}
+		delete [] pmatrix;
 
 	} else{
 		HELP();
@@ -57,5 +59,3 @@ int main(int argc, char **argv) {
 
 	return EXIT_SUCCESS;
 }
-
-//	ISKANDAR ASKAROV 	cs610	8515	prp

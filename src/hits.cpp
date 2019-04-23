@@ -1,7 +1,7 @@
 /*
  * hits.cpp
  *
- *  Created on: Apr 23, 2019
+ *  Created on: Apr 22, 2019
  *      Author: iskandar
  */
 
@@ -69,6 +69,16 @@ int **hits::generate_matrix(ifstream &rfp){
 	return pmatrix;
 }
 
+bool hits::converged(double *p, double *q) const{
+
+    for(int i = 0 ; i < this->vertex_count; i++) {
+        if (abs(p[i] - q[i]) > this->errrate)
+          return false;
+    }
+    return true;
+}
+
+
 void hits::init_hub_auth(){
     this->hub0 = new double[this->vertex_count];
     this->auth0 = new double[this->vertex_count];
@@ -95,16 +105,7 @@ void hits::init_hub_auth(){
     }
 }
 
-bool hits::converged(double *p, double *q) const{
-
-    for(int i = 0 ; i < this->vertex_count; i++) {
-        if (abs(p[i] - q[i]) > this->errrate)
-          return false;
-    }
-    return true;
-}
-
-void hits::run(int **pmatrix){
+void hits::run_hits(int **pmatrix){
 
 	double hub[this->vertex_count];
     double auth[this->vertex_count];

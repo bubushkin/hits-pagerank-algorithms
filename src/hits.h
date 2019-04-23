@@ -47,7 +47,7 @@ public:
 
 	int get_vertex_size();
 
-	void run(int **pmatrix);
+	void run_hits(int **pmatrix);
 
 	~hits();
 
